@@ -30,9 +30,7 @@ const BookCard = ({ book, addBookToShelfs }) => {
           <select
             value={shelf}
             onChange={(e) => switchBook(e.target.value, book)}>
-            <option value="none" disabled>
-              Move to...
-            </option>
+            <option disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
             <option value="read">Read</option>
