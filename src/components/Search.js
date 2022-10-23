@@ -9,15 +9,18 @@ const Search = ({ addBookToShelfs, allBooks }) => {
   async function searchBooks(text) {
     const newBooks = await BooksAPI.search(text);
     if (newBooks && Array.isArray(newBooks)) {
-      return setNewBookList(() => {
-        const notOwned = newBooks.filter((exemp) =>
-          allBooks.find((book) => book.id !== exemp.id)
-        );
-        const bookList = [...notOwned, ...allBooks];
-        return bookList;
+      setNewBookList(() => {
+        const notOwned = newBooks.map((exemp) => {
+          const foundBook = allBooks.find((book) => book.id === exemp.id);
+          if (foundBook) {
+            return foundBook;
+          }
+          return exemp;
+        });
+        return notOwned;
       });
     }
-    setNewBookList((old) => []);
+    if (!text) return setNewBookList([]);
   }
 
   return (
@@ -37,15 +40,15 @@ const Search = ({ addBookToShelfs, allBooks }) => {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {newBookList &&
-              Array.isArray(newBookList) &&
-              newBookList.map((book) => {
-                return (
-                  <li key={book.id}>
-                    <BookCard book={book} addBookToShelfs={addBookToShelfs} />
-                  </li>
-                );
-              })}
+            {newBookList && newBookList.length > 0
+              ? newBookList.map((book) => {
+                  return (
+                    <li key={book.id}>
+                      <BookCard book={book} addBookToShelfs={addBookToShelfs} />
+                    </li>
+                  );
+                })
+              : null}
           </ol>
         </div>
       </div>
