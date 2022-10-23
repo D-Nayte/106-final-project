@@ -9,28 +9,19 @@ function App() {
   const [allBooks, setAllBooks] = useState([]);
 
   function addBookToShelfs(shelf, book) {
-    if (shelf === "none") {
-      return setAllBooks((oldList) =>
-        oldList.filter((existingBook) => existingBook.id !== book.id)
-      );
+    const newBookList = allBooks.filter((exemp) => exemp.id !== book.id);
+    if (shelf !== "none") {
+      book.shelf = shelf;
+      newBookList.push(book);
     }
 
-    book.shelf = shelf;
-    setAllBooks((oldList) => {
-      const deletet = oldList.filter(
-        (existingBook) => existingBook.id !== book.id
-      );
-
-      return [...deletet, book];
-    });
+    setAllBooks((old) => newBookList);
+    BooksAPI.update(book, shelf);
   }
 
   async function getAllBooks() {
     const res = await BooksAPI.getAll();
-    res.forEach((book) => {
-      addBookToShelfs(book.shelf, book);
-    });
-    setAllBooks(res);
+    setAllBooks((old) => res);
   }
 
   useEffect(() => {
@@ -44,7 +35,9 @@ function App() {
         <Route
           exact
           path="/search"
-          element={<Search addBookToShelfs={addBookToShelfs} />}
+          element={
+            <Search addBookToShelfs={addBookToShelfs} allBooks={allBooks} />
+          }
         />
         <Route
           exact

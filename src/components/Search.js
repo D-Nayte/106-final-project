@@ -3,14 +3,21 @@ import { Link } from "react-router-dom";
 import BookCard from "./BookCard";
 import * as BooksAPI from "../BooksAPI";
 
-const Search = ({ allBooks, addBookToShelfs }) => {
-  const [query, setQuery] = useState("");
+const Search = ({ addBookToShelfs, allBooks }) => {
   const [newBookList, setNewBookList] = useState([]);
 
   async function searchBooks(text) {
-    setQuery(text);
-    const newBooks = await BooksAPI.search(query);
-    setNewBookList(newBooks);
+    const newBooks = await BooksAPI.search(text);
+    if (newBooks && Array.isArray(newBooks)) {
+      return setNewBookList(() => {
+        const notOwned = newBooks.filter((exemp) =>
+          allBooks.find((book) => book.id !== exemp.id)
+        );
+        const bookList = [...notOwned, ...allBooks];
+        return bookList;
+      });
+    }
+    setNewBookList((old) => []);
   }
 
   return (
@@ -23,7 +30,6 @@ const Search = ({ allBooks, addBookToShelfs }) => {
           <div className="search-books-input-wrapper">
             <input
               type="text"
-              value={query}
               onChange={(e) => searchBooks(e.target.value)}
               placeholder="Search by title, author, or ISBN"
             />
@@ -33,7 +39,7 @@ const Search = ({ allBooks, addBookToShelfs }) => {
           <ol className="books-grid">
             {newBookList &&
               Array.isArray(newBookList) &&
-              newBookList?.map((book) => {
+              newBookList.map((book) => {
                 return (
                   <li key={book.id}>
                     <BookCard book={book} addBookToShelfs={addBookToShelfs} />
