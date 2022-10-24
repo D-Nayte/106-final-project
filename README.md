@@ -6,9 +6,9 @@ Its a simple React app thats keeps track of your books you want to read, current
 
 # To start this app
 
-## Copie this this repo with
+## Copie this repo with
 
-### `git clone https://github.com/D-Nayte/106-final-project.git` inside your Terminal
+#### `git clone https://github.com/D-Nayte/106-final-project.git` inside your Terminal
 
 ## Or fork it
 
