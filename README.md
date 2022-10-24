@@ -4,13 +4,13 @@ This project is a result of the Udacity React Fundamentals Course wich is part o
 
 Its a simple React app thats keeps track of your books you want to read, currently Reading or reading right now
 
-## To start this app
+# To start this app
 
-### Kopie this this repo with
+## Copie this this repo with
 
-### `git clone https://github.com/D-Nayte/106-final-project.git`
+### `git clone https://github.com/D-Nayte/106-final-project.git` inside your Terminal
 
-### Or fork it
+## Or fork it
 
 ### [here](https://github.com/D-Nayte/106-final-project/fork)
 
