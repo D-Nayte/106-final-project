@@ -12,10 +12,10 @@ Its a simple React app thats keeps track of your books you want to read, current
 
 ## Or fork it
 
-### [here](https://github.com/D-Nayte/106-final-project/fork)
+#### [here](https://github.com/D-Nayte/106-final-project/fork)
 
 ## Run the app with
 
-### `npm install`
+#### `npm install`
 
-### `npm start`
+#### `npm start`
