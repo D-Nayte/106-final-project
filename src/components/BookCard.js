@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 const BookCard = ({ book, addBookToShelfs }) => {
-  const { authors, title, imageLinks } = book;
-  const { smallThumbnail } = imageLinks;
+  const { title } = book;
+  const authors = book.authors && book.authors.join(", ");
+  const smallThumbnail = book.imageLinks && book.imageLinks.smallThumbnail;
   const [shelf, setShelf] = useState(book.shelf);
 
   function switchBook(value, exemplar) {
