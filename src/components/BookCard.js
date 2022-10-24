@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const BookCard = ({ book, addBookToShelfs }) => {
   const { title } = book;
-  const authors = book.authors && book.authors.join(", ");
+  const authors = book && book.authors && book.authors.join(", ");
   const smallThumbnail = book.imageLinks && book.imageLinks.smallThumbnail;
   const [shelf, setShelf] = useState(book.shelf);
 

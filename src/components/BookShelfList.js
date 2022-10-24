@@ -43,17 +43,18 @@ const BookShelfList = ({ addBookToShelfs, allBooks }) => {
         </div>
         <div className="list-books-content">
           <div>
-            {bookShelfs.map((bookShelf) => {
-              const { books, shelfTitle } = bookShelf;
-              return (
-                <Bookshelf
-                  key={shelfTitle}
-                  title={shelfTitle}
-                  books={books}
-                  addBookToShelfs={addBookToShelfs}
-                />
-              );
-            })}
+            {bookShelfs &&
+              bookShelfs.map((bookShelf) => {
+                const { books, shelfTitle } = bookShelf;
+                return (
+                  <Bookshelf
+                    key={shelfTitle}
+                    title={shelfTitle}
+                    books={books}
+                    addBookToShelfs={addBookToShelfs}
+                  />
+                );
+              })}
           </div>
         </div>
         <Link className="open-search" to="/search">

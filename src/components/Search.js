@@ -1,27 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import BookCard from "./BookCard";
 import * as BooksAPI from "../BooksAPI";
 
 const Search = ({ addBookToShelfs, allBooks }) => {
   const [newBookList, setNewBookList] = useState([]);
+  const [query, setQuery] = useState("");
 
-  async function searchBooks(text) {
-    const newBooks = await BooksAPI.search(text);
-    if (newBooks && Array.isArray(newBooks)) {
-      setNewBookList(() => {
-        const notOwned = newBooks.map((exemp) => {
-          const foundBook = allBooks.find((book) => book.id === exemp.id);
-          if (foundBook) {
-            return foundBook;
-          }
-          return exemp;
-        });
-        return notOwned;
+  async function searchBooks() {
+    const newBooks = await BooksAPI.search(query.trim().toLocaleLowerCase());
+    if (newBooks && newBooks.error !== "empty query") {
+      const formattedBookList = newBooks.map((exemp) => {
+        const foundBook = allBooks.find((book) => book.id === exemp.id);
+        if (foundBook) {
+          return foundBook;
+        }
+        return exemp;
       });
+      return setNewBookList((old) => [...formattedBookList]);
     }
-    if (!text) return setNewBookList([]);
+    if (!query || newBooks.error === "empty query")
+      return setNewBookList((old) => old.filter((e) => false));
   }
+
+  useEffect(() => {
+    searchBooks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   return (
     <div>
@@ -33,7 +38,8 @@ const Search = ({ addBookToShelfs, allBooks }) => {
           <div className="search-books-input-wrapper">
             <input
               type="text"
-              onChange={(e) => searchBooks(e.target.value)}
+              onChange={(e) => setQuery(e.target.value)}
+              value={query}
               placeholder="Search by title, author, or ISBN"
             />
           </div>
